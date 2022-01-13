@@ -1,0 +1,49 @@
+{
+  "version": "1.0.0",
+  "private": true,
+  "name": "y-presence",
+  "description": "Easy way to add presence (live cursors/avatars) to your multiplayer application using Yjs",
+  "author": "@nimeshnayaju",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:nimeshnayaju/y-presence.git"
+  },
+  "license": "MIT",
+  "workspaces": [
+    "y-presence",
+    "example"
+  ],
+  "keywords": [
+    "yjs",
+    "presence",
+    "cursors",
+    "avatars",
+    "multiplayer"
+  ],
+  "scripts": {
+    "start": "lerna run start --stream --parallel",
+    "build": "lerna run build --stream --parallel",
+    "lint": "eslint src/ --ext .ts,.tsx",
+    "clean": "rm -rf dist",
+    "test": "lerna run jest",
+    "test:ci": "lerna run jest:ci"
+  },
+  "devDependencies": {
+    "@swc-node/jest": "^1.4.3",
+    "@types/node": "^17.0.8",
+    "@types/react": "^17.0.38",
+    "@types/react-dom": "^17.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.9.1",
+    "@typescript-eslint/parser": "^5.9.1",
+    "config": "^3.3.7",
+    "esbuild": "^0.14.11",
+    "eslint": "^8.6.0",
+    "jest": "^27.4.7",
+    "prettier": "^2.5.1",
+    "tsconfig": "^7.0.0",
+    "tslib": "^2.3.1",
+    "typedoc": "^0.22.10",
+    "typescript": "^4.5.4"
+  },
+  "dependencies": {}
+}
