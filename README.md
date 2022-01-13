@@ -90,3 +90,5 @@ function Users() {
   )
 }
 ```
+
+Credits to [@steveruizok](https://github.com/steveruizok)'s [perfect-cursor](https://codesandbox.io/s/u85tu)'s demo that inspired me to write this library and thanks to [Liveblocks](https://liveblocks.io/) implementation of their API for inspiring the code structure.
