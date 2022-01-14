@@ -25,9 +25,20 @@
   pointer-events: none;
 }
 
-a {
+.about {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   padding: 16px;
-  margin: 0px;
+  color: white;
+}
+
+.info {
+  margin-left: auto;
+}
+
+a {
   text-decoration: none;
   color: white;
   font-weight: 600;
@@ -35,10 +46,4 @@ a {
 
 a:hover {
   text-decoration: underline;
-}
-
-.link {
-  position: absolute;
-  top: 0px;
-  left: 0px;
 }

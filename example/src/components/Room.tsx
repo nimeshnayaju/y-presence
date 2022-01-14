@@ -8,13 +8,13 @@ import { Cursor } from "./Cursor";
 const color = USER_COLORS[Math.floor(Math.random() * USER_COLORS.length)];
 
 export default function Room() {
-  const others = useOthers<CursorPresence>();
-
   const { updatePresence } = useSelf<CursorPresence>({
     x: 0,
     y: 0,
     color: color
   });
+
+  const others = useOthers<CursorPresence>();
 
   const handlePointMove = React.useCallback(
     (e: React.PointerEvent) => {
@@ -30,7 +30,6 @@ export default function Room() {
     <div className="room" onPointerMove={handlePointMove}>
       <About />
       {others.map(({ id, presence }) => {
-        if (!presence) return null;
         return (
           <Cursor
             key={id}
