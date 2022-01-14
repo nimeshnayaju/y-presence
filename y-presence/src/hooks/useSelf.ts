@@ -62,6 +62,11 @@ const PRESENCE = "presence";
     id: presence.clientID,
     presence: initialPresence
   });
+  
+  // Set the initial state of the user
+  React.useEffect(() => {
+    presence.setLocalState(self);
+  }, [presence, self]);
 
   // Updates the current user's presence
   const updatePresence = React.useCallback(
