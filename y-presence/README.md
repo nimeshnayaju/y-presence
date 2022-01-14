@@ -14,7 +14,7 @@ npm i y-presence
 
 ### Codesandbox demo/examples
 
-For all the demos, you can open two tabs in your browser to see the presence update
+For all the demos, you can open a different tab(s) in your browser to observe how user presence updates when someone enters a room.
 
 - Simple room: [Demo](https://7ll3u.csb.app/) | [Code](https://codesandbox.io/s/y-presence-demo-simple-room-7ll3u)
 - Live cursors: [Demo](https://bj2p2.csb.app/) | [Code](https://codesandbox.io/s/y-presence-demo-live-cursors-bj2p2)
@@ -69,6 +69,8 @@ export default function App() {
 }
 
 function SimpleRoom() {
+  // Need to call `useSelf()` in order to register oneself to the room
+  useSelf({})
   const others = useOthers()
 
   return <>There are currently {others.length} other people in the room.</>
