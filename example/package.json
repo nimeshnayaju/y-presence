@@ -1,5 +1,5 @@
 {
-  "version": "1.0.4",
+  "version": "1.0.5",
   "name": "example",
   "description": "An example project for y-presence",
   "author": "@nimeshnayaju",
@@ -21,6 +21,6 @@
     "yjs": "^13.5.24"
   },
   "dependencies": {
-    "y-presence": "^1.0.4"
+    "y-presence": "^1.0.5"
   }
 }
