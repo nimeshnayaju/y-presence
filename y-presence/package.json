@@ -1,5 +1,5 @@
 {
-  "version": "1.0.2",
+  "version": "1.0.3",
   "name": "y-presence",
   "description": "Easy way to add presence (live cursors/avatars) to your multiplayer application using Yjs",
   "author": "@nimeshnayaju",
