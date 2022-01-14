@@ -26,5 +26,5 @@ export interface User<T extends Presence = Presence> {
   /**
    * The user presence
    */
-  readonly presence?: T;
+  readonly presence: T;
 }

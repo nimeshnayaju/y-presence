@@ -54,6 +54,8 @@ import type { Presence, User } from "../types";
       );
     }
 
+    handleChange();
+
     presence.on("change", handleChange);
 
     return () => {

@@ -81,6 +81,18 @@ const PRESENCE = "presence";
     [presence, self]
   );
 
+  // Reset user's presence when they navigate away from the page
+  React.useEffect(() => {
+    function handleUnload() {
+      presence.setLocalState(null);
+    }
+    window.addEventListener("unload", handleUnload);
+
+    return () => {
+      window.removeEventListener("unload", handleUnload);
+    };
+  });
+    
   return {
     self,
     updatePresence
