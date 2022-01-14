@@ -15,7 +15,10 @@ export interface Presence {
   [key: string]: any;
 }
 
-export interface User<T extends Presence> {
+/**
+ * Represent a user object connected in the room
+ */
+export interface User<T extends Presence = Presence> {
   /**
    * The client id associated to the user
    */
@@ -23,11 +26,5 @@ export interface User<T extends Presence> {
   /**
    * The user presence
    */
-  readonly presence: T;
+  readonly presence?: T;
 }
-
-export type CursorPresence = {
-  x: number;
-  y: number;
-  color: string;
-};

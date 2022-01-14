@@ -12,7 +12,7 @@
       "*": ["src/*"]
     }
   },
-  "references": [{ "path": "../y-cursors" }],
+  "references": [{ "path": "../y-presence" }],
   "typedocOptions": {
     "entryPoints": ["src/index.ts"],
     "out": "docs"

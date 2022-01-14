@@ -1,14 +1,14 @@
 /* eslint-disable */
-const fs = require("fs")
-const esbuild = require("esbuild")
-const { gzip } = require("zlib")
-const pkg = require("../package.json")
+const fs = require('fs')
+const esbuild = require('esbuild')
+const { gzip } = require('zlib')
+const pkg = require('../package.json')
 
 const { log: jslog } = console
 
 async function main() {
-  if (fs.existsSync("./dist")) {
-    fs.rmSync("./dist", { recursive: true }, (e) => {
+  if (fs.existsSync('./dist')) {
+    fs.rmSync('./dist', { recursive: true }, (e) => {
       if (e) {
         throw e
       }
@@ -25,8 +25,8 @@ async function main() {
       target: 'es6',
       jsxFactory: 'React.createElement',
       jsxFragment: 'React.Fragment',
-      tsconfig: './tsconfig.build.json',
-      external: Object.keys(pkg.dependencies).concat(Object.keys(pkg.peerDependencies)),
+      tsconfig: './tsconfig.json',
+      external: Object.keys(pkg.peerDependencies),
       metafile: true,
     })
 
@@ -40,7 +40,7 @@ async function main() {
       tsconfig: './tsconfig.build.json',
       jsxFactory: 'React.createElement',
       jsxFragment: 'React.Fragment',
-      external: Object.keys(pkg.dependencies).concat(Object.keys(pkg.peerDependencies)),
+      external: Object.keys(pkg.peerDependencies),
       metafile: true,
     })
 
@@ -49,10 +49,10 @@ async function main() {
       0
     )
 
-    fs.readFile("./dist/esm/index.js", (_err, data) => {
+    fs.readFile('./dist/esm/index.js', (_err, data) => {
       gzip(data, (_err, result) => {
         jslog(
-          `✔ ${pkg.name}: Built package. ${(esmSize / 1000).toFixed(2)}kb (${(
+          `✔ ${pkg.name}: Built pkg. ${(esmSize / 1000).toFixed(2)}kb (${(
             result.length / 1000
           ).toFixed(2)}kb minified)`
         )
