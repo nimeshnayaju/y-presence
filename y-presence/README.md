@@ -69,8 +69,6 @@ export default function App() {
 }
 
 function SimpleRoom() {
-  // Need to call `useSelf()` in order to register oneself to the room
-  useSelf({})
   const others = useOthers()
 
   return <>There are currently {others.length} other people in the room.</>

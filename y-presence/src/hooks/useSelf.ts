@@ -71,27 +71,17 @@ const PRESENCE = "presence";
   // Updates the current user's presence
   const updatePresence = React.useCallback(
     (overrides: Partial<T>) => {
-      if (self) {
-        const updatedPresence = { ...self.presence, ...overrides };
-        presence.setLocalStateField(PRESENCE, updatedPresence);
-  
-        setSelf(presence.getLocalState() as User<T>);
-      }
+      const updatedPresence = { ...self.presence, ...overrides };
+
+      presence.setLocalState({
+        id: presence.clientID,
+        presence: updatedPresence
+      });
+
+      setSelf(presence.getLocalState() as User<T>);
     },
     [presence, self]
   );
-
-  // Reset user's presence when they navigate away from the page
-  React.useEffect(() => {
-    function handleUnload() {
-      presence.setLocalState(null);
-    }
-    window.addEventListener("unload", handleUnload);
-
-    return () => {
-      window.removeEventListener("unload", handleUnload);
-    };
-  });
     
   return {
     self,
