@@ -30,6 +30,7 @@ export default function Room() {
     <div className="room" onPointerMove={handlePointMove}>
       <About />
       {others.map(({ id, presence }) => {
+        if (!presence) return null;
         return (
           <Cursor
             key={id}

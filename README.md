@@ -1,6 +1,6 @@
 # y-presence
 
-Easy way to add presence (live cursors/avatars) to your multiplayer application using Yjs.
+Easy way to add presence (live cursors/avatars) to any react application using react hooks.
 
 ## Installation
 
@@ -14,12 +14,13 @@ npm i y-presence
 
 ### Codesandbox demo/examples
 
-For all the demos, you can open two tabs in your browser to see the presence update
+For all the demos, you can open a new tab on your browser to observe how the presence updates in each example.
 
 - Simple room: [Demo](https://7ll3u.csb.app/) | [Code](https://codesandbox.io/s/y-presence-demo-simple-room-7ll3u)
 - Live cursors: [Demo](https://bj2p2.csb.app/) | [Code](https://codesandbox.io/s/y-presence-demo-live-cursors-bj2p2)
 - Live avatars: [Demo](https://65xpc.csb.app/) | [Code](https://codesandbox.io/s/y-presence-demo-live-avatars-65xpc)
-- Live selection: [Demo](https://5gmzw.csb.app/) | [Code](https://codesandbox.io/s/y-presence-demo-live-selections-5gmzw)
+- Live selection (Input form): [Demo](https://5gmzw.csb.app/) | [Code](https://codesandbox.io/s/y-presence-demo-live-selections-5gmzw)
+- Live selection (Toggle group): [Demo](https://5qp5w.csb.app/) | [Code](https://codesandbox.io/s/y-presence-demo-toggle-selection-5qp5w)
 
 ### Using PresenceProvider
 
@@ -116,8 +117,8 @@ function SimpleRoom() {
 
     return (
       <>
-        Client id: {self.id}
-        Presence: {self.presence}
+        <p>Client id: {self.id}</p>
+        <p>Presence: {self.presence}</p>
       </>
     )
   }
@@ -139,25 +140,26 @@ function SimpleRoom() {
   **Example**
 
   ```tsx
-  import { useOthers } from "y-presence";
+  import { useOthers } from 'y-presence'
 
-   // Define the presence object (ignore if not typescript)
+  // Define the presence object (ignore if not typescript)
   type CursorPresence = {
-    x: number;
-    y: number;
+    x: number
+    y: number
   }
 
   export default function Room() {
-    const others = useOthers<CursorPresence>();
+    const others = useOthers<CursorPresence>()
 
     return (
       <>
-        Number of other users: {others.length}
-        others.map(({ id, presence }) => {
-          if (!presence) return null;
+        <p>Number of other users: {others.length}</p>
+
+        {others.map(({ id, presence }) => {
+          if (!presence) return null
 
           return <Cursor key={id} x={presence.x} y={presence.y} />
-        })
+        })}
       </>
     )
   }
@@ -165,4 +167,4 @@ function SimpleRoom() {
 
 ## Credits
 
-Huge thanks to [@steveruizok](https://github.com/steveruizok)'s [perfect-cursor](https://codesandbox.io/s/u85tu)'s demo that inspired me to write this library and thanks to [Liveblocks](https://liveblocks.io/) implementation of their API for inspiring the code structure.
+Huge thanks to [@steveruizok](https://github.com/steveruizok)'s [perfect-cursor](https://codesandbox.io/s/u85tu)'s demo that inspired me to write this library. The two react hooks and their structure are also very much inspired by [Liveblocks](https://liveblocks.io/)’s react implementation of their multiplayer API.
