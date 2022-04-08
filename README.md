@@ -56,12 +56,9 @@ y-presence comes with four hooks: `useSelf()`, `useOthers()`, `useUsers()`, and 
 
 - `useSelf()`:
 
-  The `useSelf` hook returns an object containing information about the current user (represented as `self`)
-  and a function to update the user's presence. The `useSelf` hook behaves very similarly to the `useState`
-  hook as calling the `setPresence` method causes a rerender and updates the `self` object.
+  The `useSelf` hook returns an object containing information about the current user (represented as `self`) and a function to update the user's presence. The `useSelf` hook behaves very similarly to the `useState` hook as calling the `setPresence` method causes a rerender and updates the `self` object.
 
-  The `self` object contains the user client/connection id and a field to store a presence object.
-  It looks like the following:
+  The `self` object contains the user client/connection id and a field to store a presence object. It looks like the following:
 
   ```ts
   User<T> = {
@@ -98,10 +95,7 @@ y-presence comes with four hooks: `useSelf()`, `useOthers()`, `useUsers()`, and 
   ```
 
 - `useOthers()`:
-  The `useOthers` hook returns an array of users that are currently connected in the room
-  (excluding yourself). Each user object in the array contains the client/connection id
-  and the presence information associated to the user. The user object looks like the
-  following:
+  The `useOthers` hook returns an array of users that are currently connected in the room (excluding yourself). Each user object in the array contains the client/connection id and the presence information associated to the user. The user object looks like the following:
 
   ```ts
   User<T> = {
@@ -139,10 +133,7 @@ y-presence comes with four hooks: `useSelf()`, `useOthers()`, `useUsers()`, and 
   ```
 
 - `useUsers()`:
-  The `useUsers` hook returns an array of users that are currently connected in the room
-  (including yourself). Each user object in the array contains the client/connection id
-  and the presence information associated to the user. The user object looks like the
-  following:
+  The `useUsers` hook returns an array of users that are currently connected in the room (including yourself). Each user object in the array contains the client/connection id and the presence information associated to the user. The user object looks like the following:
 
   ```ts
   User<T> = {
@@ -175,8 +166,7 @@ y-presence comes with four hooks: `useSelf()`, `useOthers()`, `useUsers()`, and 
   ```
 
 - `useRoom()`:
-  The `useRoom` hook returns a `Room`, a thin wrapper around the provider awareness. This object
-  provides helper methods to listen to various user events in a room.
+  The `useRoom` hook returns a `Room`, a thin wrapper around the provider awareness. This object provides helper methods to listen to various user events in a room.
 
   ```tsx
   @example
