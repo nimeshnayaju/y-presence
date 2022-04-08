@@ -30,6 +30,9 @@
     "test": "jest",
     "test:ci": "jest:ci"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "react": ">=16.8"
   },
@@ -40,5 +43,5 @@
   "dependencies": {
     "@y-presence/client": "^1.1.1"
   },
-  "gitHead": "0b8930999552cb42d791670477de4072dd735b08"
+  "gitHead": "651c340d9aca4acb36d01a83d1614a95e41b6aaa"
 }
