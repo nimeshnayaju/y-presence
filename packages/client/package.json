@@ -33,5 +33,6 @@
   "devDependencies": {
     "y-webrtc": ">=10.2.2",
     "y-websocket": ">=1.3.18"
-  }
+  },
+  "gitHead": "0b8930999552cb42d791670477de4072dd735b08"
 }
