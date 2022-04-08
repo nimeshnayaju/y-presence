@@ -1,5 +1,5 @@
 {
-  "version": "1.1.2",
+  "version": "1.1.3",
   "name": "@y-presence/react",
   "description": "Easy way to add presence (live cursors/avatars) to your multiplayer application using Yjs",
   "author": "@nimeshnayaju",
@@ -42,7 +42,7 @@
     "y-websocket": "^1.3.18"
   },
   "dependencies": {
-    "@y-presence/client": "^1.1.2"
+    "@y-presence/client": "^1.1.3"
   },
   "gitHead": "18fb29bb97b06d77a6f25a0b2d57f69c2364d808"
 }
