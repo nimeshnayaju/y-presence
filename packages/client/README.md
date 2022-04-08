@@ -2,6 +2,8 @@
 
 Add presence (live cursors/avatars) to any web application.
 
+- Lightweight: 6.08kb gzipped
+
 ## Installation
 
 ```bash

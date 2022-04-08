@@ -1,6 +1,8 @@
-# y-presence
+# @y-presence/react
 
-Easy way to add presence (live cursors/avatars) to any react application using react hooks.
+Add presence (live cursors/avatars) to any react application using react hooks.
+
+- Lightweight: 14.38kb gzipped
 
 ## Installation
 

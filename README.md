@@ -1,8 +1,11 @@
 # y-presence
 
-Easy way to add presence (live cursors/avatars) to any react application using react hooks.
+Add presence (live cursors/avatars) to any web application. This repository contains two packages:
 
-## Installation
+- [@y-presence/client](https://github.com/nimeshnayaju/y-presence/tree/main/packages/client) (6.08kb gzipped) provides a thin wrapper around the provider awareness and exposes helper methods to listen to various awareness events, including other users' awareness, self awareness, etc.
+- [@y-presence/react](https://github.com/nimeshnayaju/y-presence/tree/main/packages/react) (14.38kb gzipped) provides react hooks to implement multiplayer presence using the helper methods from `@y-presence/client`.
+
+## Installation (`@y-presence/react`)
 
 ```bash
 yarn add @y-presence/react
