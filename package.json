@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "private": true,
   "name": "y-presence",
-  "description": "Easy way to add presence (live cursors/avatars) to your multiplayer application using Yjs",
+  "description": "Add presence (live cursors/avatars) to your multiplayer application using yjs",
   "author": "@nimeshnayaju",
   "repository": {
     "type": "git",
@@ -10,8 +10,8 @@
   },
   "license": "MIT",
   "workspaces": [
-    "y-presence",
-    "example"
+    "examples/*",
+    "packages/*"
   ],
   "keywords": [
     "yjs",
@@ -22,7 +22,7 @@
   ],
   "scripts": {
     "start": "lerna run start --stream --parallel",
-    "build": "lerna run build --stream --parallel",
+    "build:": "lerna run build --stream --parallel",
     "lint": "eslint src/ --ext .ts,.tsx",
     "clean": "rm -rf dist",
     "test": "lerna run jest",
@@ -42,7 +42,7 @@
     "prettier": "^2.5.1",
     "tsconfig": "^7.0.0",
     "tslib": "^2.3.1",
-    "typedoc": "^0.22.10",
+    "typedoc": "^0.22.14",
     "typescript": "^4.5.4"
   },
   "dependencies": {}

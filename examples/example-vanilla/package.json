@@ -1,0 +1,22 @@
+{
+  "name": "@y-presence/example-vanilla",
+  "version": "1.0.0",
+  "description": "JavaScript and TypeScript example starter project",
+  "main": "index.html",
+  "scripts": {
+    "start": "parcel index.html --open",
+    "build": "parcel build index.html"
+  },
+  "dependencies": {
+    "@y-presence/client": "^1.0.6",
+    "parcel-bundler": "^1.6.1",
+    "y-websocket": "^1.4.0",
+    "yjs": "^13.5.34"
+  },
+  "devDependencies": {
+    "typescript": "4.4.4"
+  },
+  "resolutions": {
+    "@babel/preset-env": "7.13.8"
+  }
+}
