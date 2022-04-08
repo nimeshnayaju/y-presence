@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "JavaScript and TypeScript example starter project",
   "main": "index.html",
+  "private": true,
   "scripts": {
     "start": "parcel index.html --open",
     "build": "parcel build index.html"
