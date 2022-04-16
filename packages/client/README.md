@@ -19,8 +19,21 @@ This library exposes a `Room` object which wraps the provider's awareness to pro
 ```ts
 const room = new Room(provider.awareness)
 
+// Set the current user's presence
+room.setPresence({ name: 'John Doe' })
+
 // listen to changes in all users' presence
 room.subscribe('users', (users) => {
+  // do something
+})
+
+// listen to changes in other users' presence
+room.subscribe('others', (others) => {
+  // do something
+})
+
+// listen to changes in self presence
+room.subscribe('self', (user) => {
   // do something
 })
 ```
