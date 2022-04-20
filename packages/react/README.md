@@ -4,17 +4,19 @@ React hooks to add multiplayer presence (live cursors/avatars) to any react appl
 
 - Lightweight: 14.38kb gzipped
 
-## Codesandbox demo/examples
+### Codesandbox demo/examples
 
 For all the demos, you can open a new tab on your browser to observe how the presence updates in each example.
 
 - Simple room: [Demo](https://7ll3u.csb.app/) | [Code](https://codesandbox.io/s/y-presence-demo-simple-room-7ll3u)
 - Live cursors: [Demo](https://bj2p2.csb.app/) | [Code](https://codesandbox.io/s/y-presence-demo-live-cursors-bj2p2)
 - Live avatars: [Demo](https://65xpc.csb.app/) | [Code](https://codesandbox.io/s/y-presence-demo-live-avatars-65xpc)
-- Live selection (Input form): [Demo](https://5gmzw.csb.app/) | [Code](https://codesandbox.io/s/y-presence-demo-live-selections-5gmzw)
-- Live selection (Toggle group): [Demo](https://5qp5w.csb.app/) | [Code](https://codesandbox.io/s/y-presence-demo-toggle-selection-5qp5w)
 
-## Installation
+### Other examples/integrations:
+
+- perfect-cursors: [Demo](https://9ej521.csb.app/) | [Code](https://codesandbox.io/s/9ej521)
+
+### Installation
 
 ```bash
 yarn add @y-presence/react
@@ -22,9 +24,7 @@ yarn add @y-presence/react
 npm i @y-presence/react
 ```
 
-## Usage
-
-### React
+### Usage
 
 Wrap the components you'd like to provide access to `@y-presence/react` hooks inside `RoomProvider` in your React application.
 
@@ -54,13 +54,37 @@ export default function App() {
 
 ### Using y-presence react hooks
 
-`@y-presence/react` comes with four hooks: `useSelf()`, `useOthers()`, `useUsers()`, and `useRoom()`.
+`@y-presence/react` comes with four hooks: `useOthers()`, `useUsers()`, `useSelf()`, and `useRoom()`.
+
+- `useOthers()`:
+  The `useOthers` hook returns an array of users that are currently connected in the room (excluding yourself). Each user object in the array contains the client/connection id and the presence information associated to the user.
+
+  ```tsx
+  import { useOthers } from '@y-presence/react'
+
+  export default function Room() {
+    const others = useOthers()
+
+    return <p>Number of other users: {others.length}</p>
+  }
+  ```
+
+- `useUsers()`:
+  The `useUsers` hook returns an array of users that are currently connected in the room (including yourself). Each user object in the array contains the client/connection id and the presence information associated to the user.
+
+  ```tsx
+  import { useUsers } from '@y-presence/react'
+
+  export default function Room() {
+    const users = useUsers()
+
+    return <p>Number of connected users: {users.length}</p>
+  }
+  ```
 
 - `useSelf()`:
 
-  The `useSelf` hook returns an object `self` containing information about the current user and a function `setPresence` to update the user's presence.
-
-  The `useSelf` hook behaves very similarly to the `useState` hook as calling the `setPresence` method causes a rerender and updates the `self` object. The `self` object contains the user client/connection id and a field to store a presence object. It looks like the following:
+  The `useSelf` hook returns an object `self` containing information about the current user and a function `setPresence` to update the user's presence. The `useSelf` hook behaves similarly to the `useState` hook as calling the `setPresence` method causes a rerender and updates the `self` object. The `self` object contains the user client/connection id and a field to store a presence object. It looks like the following:
 
   ```ts
   User<T> = {
@@ -89,59 +113,10 @@ export default function App() {
 
     return (
       <div>
-        Client id: {self.id}
-        Presence: {self.presence}
+        <p>Client id: {self.id}</p>
+        <p>Presence: {self.presence}</p>
       </div>
     )
-  }
-  ```
-
-- `useOthers()`:
-  The `useOthers` hook returns an array of users that are currently connected in the room (excluding yourself). Each user object in the array contains the client/connection id and the presence information associated to the user.
-
-  ```tsx
-  import { useOthers } from "@y-presence/react";
-
-  // Define the presence object (ignore if not typescript)
-  type CursorPresence = {
-    x: number;
-    y: number;
-  }
-
-  export default function Room() {
-    const others = useOthers<CursorPresence>();
-
-      return (
-        <>
-          Number of other users: {others.length}
-          others.map(({ id, presence }) => {
-            if (!presence) return null;
-
-            return <Cursor key={id} x={presence.x} y={presence.y} />
-          })
-        </>
-      )
-
-  }
-
-  ```
-
-- `useUsers()`:
-  The `useUsers` hook returns an array of users that are currently connected in the room (including yourself). Each user object in the array contains the client/connection id and the presence information associated to the user.
-
-  ```tsx
-  import { useUsers } from '@y-presence/react'
-
-  // Define the presence object (ignore if not typescript)
-  type CursorPresence = {
-    x: number
-    y: number
-  }
-
-  export default function Room() {
-    const users = useUsers<CursorPresence>()
-
-    return <>Number of connected users: {users.length}</>
   }
   ```
 
@@ -156,11 +131,23 @@ export default function App() {
     const [numUsers, setNumUsers] = React.useState(0)
 
     React.useEffect(() => {
-      room.subscribe('users', (users) => {
+      const unsubUsers = room.subscribe('users', (users) => {
         setNumUsers(users.length)
       })
+
+      return () => {
+        unsubUsers()
+      }
     }, [])
 
     return <>Number of connected users: {numUsers}</>
   }
   ```
+
+### License
+
+This project is licensed under MIT.
+
+## Author
+
+- [@nayajunimesh](https://twitter.com/nayajunimesh)

@@ -9,7 +9,7 @@
     "build": "parcel build index.html"
   },
   "dependencies": {
-    "@y-presence/client": "^1.1.6",
+    "@y-presence/client": "*",
     "parcel-bundler": "^1.6.1",
     "y-websocket": "^1.4.0",
     "yjs": "^13.5.34"

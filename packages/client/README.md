@@ -4,6 +4,14 @@ Add presence (live cursors/avatars) to any web application.
 
 - Lightweight: 6.08kb gzipped
 
+### Codesandbox demo/examples
+
+- Simple room (Vue.js): [Demo](https://2knp0l.sse.codesandbox.io/) | [Code](https://codesandbox.io/s/2knp0l)
+
+### Other examples/integrations:
+
+- tldraw: [Demo](https://opuwd.csb.app/) | [Code](https://codesandbox.io/s/opuwd)
+
 ## Installation
 
 ```bash
@@ -37,3 +45,11 @@ room.subscribe('self', (user) => {
   // do something
 })
 ```
+
+### License
+
+This project is licensed under MIT.
+
+## Author
+
+- [@nayajunimesh](https://twitter.com/nayajunimesh)

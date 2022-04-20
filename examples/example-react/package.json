@@ -10,7 +10,7 @@
     "@types/node": "^16.11.26",
     "@types/react": "^17.0.44",
     "@types/react-dom": "^17.0.15",
-    "@y-presence/react": "^1.1.6",
+    "@y-presence/react": "*",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-scripts": "5.0.0",

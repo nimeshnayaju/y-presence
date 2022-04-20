@@ -34,7 +34,7 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "devDependencies": {
+  "dependencies": {
     "y-webrtc": ">=10.2.2",
     "y-websocket": ">=1.3.18"
   },
