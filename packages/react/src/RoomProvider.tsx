@@ -5,7 +5,7 @@ import type { RoomProviderProps } from './types'
 export const RoomContext = React.createContext<Room | null>(null)
 
 export function RoomProvider({ awareness, children }: RoomProviderProps) {
-  const [room, _] = React.useState<Room>(() => {
+  const [room] = React.useState<Room>(() => {
     return new Room(awareness)
   })
 

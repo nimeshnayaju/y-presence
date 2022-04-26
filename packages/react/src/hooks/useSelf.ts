@@ -3,12 +3,10 @@ import React from 'react'
 import { useRoom } from './useRoom'
 
 /**
- * The `useSelf` hook returns an object containing information about the current user (represented as `self`)
- * and a function to update the user's presence. The `useSelf` hook behaves very similarly to the `useState`
- * hook as calling the `setPresence` method causes a rerender and updates the `self` object.
+ * The `useSelf` hook returns an object `self` containing information about the current user and a function `setPresence` to update the user's presence.
+ * The `useSelf` hook behaves similarly to the `useState` hook as calling the `setPresence` method causes a rerender and updates the `self` object.
  *
- * The `self` object contains the user client/connection id and a field to store a presence object.
- * It looks like the following:
+ * The `self` object contains the user client/connection id and a field to store a presence object. It looks like the following:
  *
  * ```
  * User<T> = {
@@ -35,8 +33,8 @@ import { useRoom } from './useRoom'
  *
  *    return (
  *        <div>
- *          Client id: {self.id}
- *          Presence: {self.presence}
+ *          <p>Client id: {self.id}</p>
+ *          <p>Presence: {self.presence}</p>
  *        </div>
  *    )
  * }

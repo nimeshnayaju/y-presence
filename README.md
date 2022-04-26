@@ -2,23 +2,35 @@
 
 A lightweight set of libraries to easily add presence (live cursors/avatars) to any web application. This repository contains two packages:
 
-- [@y-presence/client](https://github.com/nimeshnayaju/y-presence/tree/main/packages/client) (6.08kb gzipped) exposes a `Room` object which wraps the provider's awareness to provide helper methods to listen to changes in self presence, other users' presence and all users' presence.
+- [@y-presence/client](https://github.com/nimeshnayaju/y-presence/tree/main/packages/client) (7.16kb) exposes a `Room` object which wraps the provider's awareness to provide helper methods to listen to changes in self presence, other users' presence and all users' presence.
 
-- [@y-presence/react](https://github.com/nimeshnayaju/y-presence/tree/main/packages/react) (14.38kb gzipped) provides simple react hooks to get or update self presence and receive all users' (or other users') presence. It builds on top of `@y-presence/client`.
+- [@y-presence/react](https://github.com/nimeshnayaju/y-presence/tree/main/packages/react) (14.86kb gzipped) provides simple react hooks to get or update self presence and receive all users' (or other users') presence. It uses the `Room` class exposed by `@y-presence/client`.
 
-### Codesandbox demo/examples
+## Codesandbox demo/examples
 
 For all the demos, you can open a new tab on your browser to observe how the presence updates in each example.
 
-- Live cursors: [Demo](https://bj2p2.csb.app/) | [Code](https://codesandbox.io/s/y-presence-demo-live-cursors-bj2p2)
-- Live avatars: [Demo](https://65xpc.csb.app/) | [Code](https://codesandbox.io/s/y-presence-demo-live-avatars-65xpc)
-- Simple room (React): [Demo](https://7ll3u.csb.app/) | [Code](https://codesandbox.io/s/y-presence-demo-simple-room-7ll3u)
-- Simple room (Vue.js): [Demo](https://2knp0l.sse.codesandbox.io/) | [Code](https://codesandbox.io/s/2knp0l)
+### React
+
+- Multiplayer avatars: [Demo](https://65xpc.csb.app/) | [Code](https://codesandbox.io/s/y-presence-demo-live-avatars-65xpc)
+- Multiplayer cursors: [Demo](https://bj2p2.csb.app/) | [Code](https://codesandbox.io/s/y-presence-demo-live-cursors-bj2p2)
+- Simple room: [Demo](https://7ll3u.csb.app/) | [Code](https://codesandbox.io/s/y-presence-demo-simple-room-7ll3u)
+
+### Vue.js
+
+- Simple room: [Demo](https://2knp0l.sse.codesandbox.io/) | [Code](https://codesandbox.io/s/2knp0l)
+
+### Svelte
+
+- Multiplayer avatars: [Demo](https://t7llhs.csb.app/) | [Code](https://codesandbox.io/s/t7llhs)
+- Simple room: [Demo](https://7qsg6f.csb.app/) | [Code](https://codesandbox.io/s/7qsg6f)
 
 ### Other examples/integrations:
 
 - tldraw: [Demo](https://opuwd.csb.app/) | [Code](https://codesandbox.io/s/opuwd)
 - perfect-cursors: [Demo](https://9ej521.csb.app/) | [Code](https://codesandbox.io/s/9ej521)
+
+[![Edit y-presence](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/y-presence-demo-live-avatars-65xpc)
 
 ## React
 
@@ -99,8 +111,6 @@ export default function App() {
   }
   ```
 
-  **Example**:
-
   ```tsx
   import { useSelf } from '@y-presence/react'
 
@@ -134,7 +144,7 @@ export default function App() {
 
   export default function Room() {
     const room = useRoom()
-    const [numUsers, setNumUsers] = React.useState(0)
+    const [numUsers, setNumUsers] = React.useState(1)
 
     React.useEffect(() => {
       const unsubUsers = room.subscribe('users', (users) => {
@@ -146,7 +156,7 @@ export default function App() {
       }
     }, [])
 
-    return <>Number of connected users: {numUsers}</>
+    return <p>Number of connected users: {numUsers}</p>
   }
   ```
 

@@ -2,7 +2,7 @@
 
 React hooks to add multiplayer presence (live cursors/avatars) to any react application.
 
-- Lightweight: 14.38kb gzipped
+- Lightweight: 14.86kb gzipped
 
 ### Codesandbox demo/examples
 
@@ -15,6 +15,8 @@ For all the demos, you can open a new tab on your browser to observe how the pre
 ### Other examples/integrations:
 
 - perfect-cursors: [Demo](https://9ej521.csb.app/) | [Code](https://codesandbox.io/s/9ej521)
+
+[![Edit y-presence](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/y-presence-demo-live-avatars-65xpc)
 
 ### Installation
 
@@ -128,7 +130,7 @@ export default function App() {
 
   export default function Room() {
     const room = useRoom()
-    const [numUsers, setNumUsers] = React.useState(0)
+    const [numUsers, setNumUsers] = React.useState(1)
 
     React.useEffect(() => {
       const unsubUsers = room.subscribe('users', (users) => {
@@ -140,7 +142,7 @@ export default function App() {
       }
     }, [])
 
-    return <>Number of connected users: {numUsers}</>
+    return <p>Number of connected users: {numUsers}</p>
   }
   ```
 

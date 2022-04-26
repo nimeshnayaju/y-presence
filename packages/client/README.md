@@ -2,15 +2,24 @@
 
 Add presence (live cursors/avatars) to any web application.
 
-- Lightweight: 6.08kb gzipped
+- Lightweight: 7.16kb gzipped
 
-### Codesandbox demo/examples
+## Codesandbox demo/examples
 
-- Simple room (Vue.js): [Demo](https://2knp0l.sse.codesandbox.io/) | [Code](https://codesandbox.io/s/2knp0l)
+### Vue.js
+
+- Simple room: [Demo](https://2knp0l.sse.codesandbox.io/) | [Code](https://codesandbox.io/s/2knp0l)
+
+### Svelte
+
+- Multiplayer avatars: [Demo](https://t7llhs.csb.app/) | [Code](https://codesandbox.io/s/t7llhs)
+- Simple room: [Demo](https://7qsg6f.csb.app/) | [Code](https://codesandbox.io/s/7qsg6f)
 
 ### Other examples/integrations:
 
 - tldraw: [Demo](https://opuwd.csb.app/) | [Code](https://codesandbox.io/s/opuwd)
+
+[![Edit y-presence](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/t7llhs)
 
 ## Installation
 

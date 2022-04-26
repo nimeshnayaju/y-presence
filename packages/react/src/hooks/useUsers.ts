@@ -3,10 +3,8 @@ import React from 'react'
 import { useRoom } from './useRoom'
 
 /**
- * The `useUsers` hook returns an array of users that are currently connected in the room
- * (including yourself). Each user object in the array contains the client/connection id
- * and the presence information associated to the user. The user object looks like the
- * following:
+ * The `useUsers` hook returns an array of users that are currently connected in the room (including yourself).
+ * Each user object in the array contains the client/connection id and the presence information associated to the user.
  *
  * ```
  * User<T> = {
@@ -18,20 +16,10 @@ import { useRoom } from './useRoom'
  * @example
  * import { useUsers } from "@y-presence/react";
  *
- * // Define the presence object (ignore if not typescript)
- * type CursorPresence = {
- *    x: number;
- *    y: number;
- * }
- *
  * export default function Room() {
- *    const users = useUsers<CursorPresence>();
+ *    const users = useUsers();
  *
- *    return (
- *        <>
- *          Number of connected users: {users.length}
- *        </>
- *    )
+ *    return <p>Number of connected users: {users.length}</p>
  * }
  */
 export function useUsers<T extends Presence = Presence>() {

@@ -11,18 +11,20 @@ import { RoomContext } from '~RoomProvider'
  *
  * export default function Room() {
  *    const room = useRoom();
- *    const [numUsers, setNumUsers] = React.useState(0);
+ *    const [numUsers, setNumUsers] = React.useState(1);
  *
  *    React.useEffect(() => {
- *      room.subscribe("users", (users) => {
+ *      const unsubUsers = room.subscribe("users", (users) => {
  *          setNumUsers(users.length);
  *      })
+ *
+ *      return () => {
+ *        unsubUsers()
+ *      }
  *    }, [])
  *
  *    return (
- *        <>
- *          Number of connected users: {numUsers}
- *        </>
+ *        <p>Number of connected users: {numUsers}</p>
  *    )
  * }
  */

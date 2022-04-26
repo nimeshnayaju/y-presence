@@ -38,11 +38,21 @@ export class Room {
     })
   }
 
+  /**
+   * Listen to changes in all or other users' presence
+   * @param event the event name: "users" or "others"
+   * @param callback the function to run whenever presence associated to the provided event changes
+   */
   subscribe<T extends Presence>(
     event: 'users' | 'others',
     callback: UsersEventCallback<T>
   ): () => void
 
+  /**
+   * Listen to changes in self presence
+   * @param event the event name: "self"
+   * @param callback the function to run whenever self presence changes
+   */
   subscribe<T extends Presence>(event: 'self', callback: UserEventCallback<T>): () => void
 
   subscribe<T extends Presence>(
@@ -78,6 +88,10 @@ export class Room {
     }
   }
 
+  /**
+   * Updates the current presence object of the current user (or self)
+   * @param presence the new presence object to set
+   */
   setPresence<T extends Presence = Presence>(presence: T): void {
     const updatedUser: User<T> = {
       id: this.awareness.clientID,
@@ -89,15 +103,27 @@ export class Room {
     })
   }
 
+  /**
+   * Method to retrieve the current user's presence
+   * @returns the User object associated to the current user (or self)
+   */
   getSelf<T extends Presence = Presence>(): User<T> {
     return this.awareness.getLocalState() as User<T>
   }
 
+  /**
+   * Method to retrieve all connected users (excluding self) in the room
+   * @returns an array of User object, where each user object is a user connected in the room (excluding self)
+   */
   getOthers<T extends Presence = Presence>(): User<T>[] {
     const users = Array.from(this.awareness.getStates().values()) as User<T>[]
     return users.filter((user) => user.id !== this.awareness.clientID)
   }
 
+  /**
+   * Method to retrieve all connected users (including self) in the room
+   * @returns an array of User object, where each user object is a user connected in the room (including self)
+   */
   getUsers<T extends Presence = Presence>(): User<T>[] {
     const users = Array.from(this.awareness.getStates().values()) as User<T>[]
     return users
