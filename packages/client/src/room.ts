@@ -5,37 +5,118 @@ import type { Awareness, Presence, User } from './types'
  * presence, other users' presence and all users' presence.
  *
  * @example
- * const room = new Room(provider.awareness)
+ *
+ * interface AppPresence {
+ *     name: string;
+ * }
+ *
+ * const initialPresence: AppPresence = { name: "John Doe" }
+ *
+ * const room = new Room<AppPresence>(provider.awareness, initialPresence)
  *
  * // listen to changes in all users' presence
  * room.subscribe('users', (users) => {
  *     // do something
  * })
  */
-export class Room {
-  awareness: Awareness
-  private listeners: RoomListener<Presence> = { others: [], users: [], self: [] }
+export class Room<T extends Presence = Presence> {
+  readonly awareness: Awareness
 
-  constructor(awareness: Awareness) {
+  private listeners: RoomListener<T> = {
+    others: [],
+    users: [],
+    self: [],
+  }
+
+  /**
+   * Creates a new instance of a room to manipulate the current user's presence
+   * @param awareness the awareness object associated to WebSocketProvider or WebrtcProvider
+   * @param initialPresence the initial presence object to assign to the current user
+   */
+  constructor(awareness: Awareness, initialPresence: T) {
     this.awareness = awareness
 
-    // initialize the user's presence (using only the client id)
-    this.awareness.setLocalState({
-      id: this.awareness.clientID,
-    })
+    this.setPresence(initialPresence)
 
-    // listen to changes in awareness and notify any listeners
-    this.awareness.on('change', () => {
-      const others = this.getOthers()
-      this.listeners.others.forEach((callback) => {
-        callback(others)
-      })
-
+    this.awareness.on('change', (_: any, origin: any) => {
       const users = this.getUsers()
       this.listeners.users.forEach((callback) => {
         callback(users)
       })
+
+      // if the transaction originated locally, do not notify listeners to "others"
+      if ((origin as string) === 'local') {
+        const self = this.getSelf()
+        this.listeners.self.forEach((callback) => {
+          callback(self)
+        })
+        return
+      }
+
+      const others = this.getOthers()
+      this.listeners.others.forEach((callback) => {
+        callback(others)
+      })
     })
+  }
+
+  /**
+   * Updates only a subset of the current user's presence object
+   * @param partial a subset of the current user's presence object to update
+   */
+  updatePresence(partial: Partial<T>): void {
+    for (const property in partial) {
+      this.awareness.setLocalStateField(property, partial[property])
+    }
+  }
+
+  /**
+   * Overrides the presence object of the current user (or self) in a single transaction
+   * @param presence the new presence object to set
+   */
+  setPresence(presence: T): void {
+    this.awareness.setLocalState(presence)
+  }
+
+  /**
+   * Returns the current user's id and their presence object
+   * @returns the User object associated to the current user (or self)
+   */
+  getSelf(): User<T> {
+    return {
+      id: this.awareness.clientID,
+      presence: this.awareness.getLocalState() as T,
+    }
+  }
+
+  /**
+   * Method to retrieve all connected users (excluding self) in the room
+   * @returns an array of User object, where each user object is a user connected in the room (excluding self)
+   */
+  getOthers(): User<T>[] {
+    const users: User<T>[] = []
+
+    this.awareness.getStates().forEach((presence, id) => {
+      if (id !== this.awareness.clientID) {
+        users.push({ id: id, presence: presence as T })
+      }
+    })
+
+    return users
+  }
+
+  /**
+   * Method to retrieve all connected users (including self) in the room
+   * @returns an array of User object, where each user object is a user connected in the room (including self)
+   */
+  getUsers(): User<T>[] {
+    const users: User<T>[] = []
+
+    this.awareness.getStates().forEach((presence, id) => {
+      users.push({ id: id, presence: presence as T })
+    })
+
+    return users
   }
 
   /**
@@ -43,41 +124,48 @@ export class Room {
    * @param event the event name: "users" or "others"
    * @param callback the function to run whenever presence associated to the provided event changes
    */
-  subscribe<T extends Presence>(
-    event: 'users' | 'others',
-    callback: UsersEventCallback<T>
-  ): () => void
+  subscribe(event: 'users' | 'others', callback: UsersEventCallback<T>): () => void
 
   /**
    * Listen to changes in self presence
    * @param event the event name: "self"
    * @param callback the function to run whenever self presence changes
    */
-  subscribe<T extends Presence>(event: 'self', callback: UserEventCallback<T>): () => void
+  subscribe(event: 'self', callback: UserEventCallback<T>): () => void
 
-  subscribe<T extends Presence>(
+  /**
+   * Listen to changes in all or other users' presence
+   * @param event the event name: "users" or "others"
+   * @param callback the function to run whenever presence associated to the provided event changes
+   */
+  subscribe(
     event: keyof RoomListener<T>,
     callback: UsersEventCallback<T> | UserEventCallback<T>
-  ) {
-    switch (event) {
-      case 'users':
-      case 'others':
-        this.listeners[event].push(callback as UsersEventCallback)
-        return () => this.unsubscribe(event, callback as UsersEventCallback)
-      case 'self':
-        this.listeners[event].push(callback as UserEventCallback)
-        return () => this.unsubscribe(event, callback as UserEventCallback)
-      default:
-        console.warn('event not recognized')
-        return {}
+  ): () => void {
+    if (event === 'users' || event === 'others') {
+      this.listeners[event].push(callback as UsersEventCallback<T>)
+      return () => this.unsubscribe(event, callback as UsersEventCallback<T>)
+    } else {
+      this.listeners[event].push(callback as UserEventCallback<T>)
+      return () => this.unsubscribe(event, callback as UserEventCallback<T>)
     }
   }
 
-  unsubscribe<T extends Presence>(event: 'users' | 'others', callback: UsersEventCallback<T>): void
+  /**
+   * Unsubscribe to changes in all or other users' presence
+   * @param event the event name: "users" or "others"
+   * @param callback the function to unsubscribe
+   */
+  unsubscribe(event: 'users' | 'others', callback: UsersEventCallback<T>): void
 
-  unsubscribe<T extends Presence>(event: 'self', callback: UserEventCallback<T>): void
+  /**
+   * Unsubscribe to changes in self presence
+   * @param event the event name: "self"
+   * @param callback the function to unsubscribe
+   */
+  unsubscribe(event: 'self', callback: UserEventCallback<T>): void
 
-  unsubscribe<T extends Presence = Presence>(
+  unsubscribe(
     event: keyof RoomListener<T>,
     callback: UsersEventCallback<T> | UserEventCallback<T>
   ) {
@@ -89,56 +177,18 @@ export class Room {
   }
 
   /**
-   * Updates the current presence object of the current user (or self)
-   * @param presence the new presence object to set
+   * Sets the current user's presence object to null and destroys the awareness object
    */
-  setPresence<T extends Presence = Presence>(presence: T): void {
-    const updatedUser: User<T> = {
-      id: this.awareness.clientID,
-      presence: presence,
-    }
-    this.awareness.setLocalState(updatedUser)
-    this.listeners.self.forEach((listener) => {
-      listener(updatedUser)
-    })
-  }
-
-  /**
-   * Method to retrieve the current user's presence
-   * @returns the User object associated to the current user (or self)
-   */
-  getSelf<T extends Presence = Presence>(): User<T> {
-    return this.awareness.getLocalState() as User<T>
-  }
-
-  /**
-   * Method to retrieve all connected users (excluding self) in the room
-   * @returns an array of User object, where each user object is a user connected in the room (excluding self)
-   */
-  getOthers<T extends Presence = Presence>(): User<T>[] {
-    const users = Array.from(this.awareness.getStates().values()) as User<T>[]
-    return users.filter((user) => user.id !== this.awareness.clientID)
-  }
-
-  /**
-   * Method to retrieve all connected users (including self) in the room
-   * @returns an array of User object, where each user object is a user connected in the room (including self)
-   */
-  getUsers<T extends Presence = Presence>(): User<T>[] {
-    const users = Array.from(this.awareness.getStates().values()) as User<T>[]
-    return users
-  }
-
   destroy() {
     this.awareness.setLocalState(null)
+    this.awareness.destroy()
   }
 }
 
-type UserEventCallback<T extends Presence = Presence> = (self: User<T>) => void
+type UsersEventCallback<T> = (users: User<T>[]) => void
+type UserEventCallback<T> = (user: User<T>) => void
 
-type UsersEventCallback<T extends Presence = Presence> = (users: User<T>[]) => void
-
-interface RoomListener<T extends Presence = Presence> {
+interface RoomListener<T> {
   users: UsersEventCallback<T>[]
   others: UsersEventCallback<T>[]
   self: UserEventCallback<T>[]

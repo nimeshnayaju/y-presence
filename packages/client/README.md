@@ -2,7 +2,7 @@
 
 Add presence (live cursors/avatars) to any web application.
 
-- Lightweight: 7.16kb gzipped
+- Lightweight: 8.74kb gzipped
 
 ## Codesandbox demo/examples
 
@@ -34,10 +34,16 @@ npm i @y-presence/client
 This library exposes a `Room` object which wraps the provider's awareness to provide helper methods to listen to changes in self presence, other users' presence and all users' presence.
 
 ```ts
-const room = new Room(provider.awareness)
+// Define your presence object here
+interface AppPresence {
+  name: string
+  color: string
+}
 
-// Set the current user's presence
-room.setPresence({ name: 'John Doe' })
+// Define your initial app presence
+const initialPresence: AppPresence = { name: 'John Doe', color: 'Blue' }
+
+const room = new Room<AppPresence>(provider.awareness, initialPresence)
 
 // listen to changes in all users' presence
 room.subscribe('users', (users) => {
@@ -53,6 +59,12 @@ room.subscribe('others', (others) => {
 room.subscribe('self', (user) => {
   // do something
 })
+
+// Updates only the color of the current user's presence object
+room.updatePresence({ color: 'Red' })
+
+// Overrides the entire presence objecct of the current user in a single transaction
+room.setPresence({ name: 'Jane Doe', color: 'red' })
 ```
 
 ### License

@@ -2,7 +2,7 @@
 
 React hooks to add multiplayer presence (live cursors/avatars) to any react application.
 
-- Lightweight: 14.86kb gzipped
+- Lightweight: 13.99kb gzipped
 
 ### Codesandbox demo/examples
 
@@ -45,9 +45,18 @@ const provider = ...
 // Get the provider's awareness API
 const awareness = provider.awareness
 
+// Define your presence object here
+interface AppPresence {
+  name: string;
+  color: string;
+}
+
+// Define your initial app presence
+const initialPresence: AppPresence = { name: "John Doe" }
+
 export default function App() {
   return (
-    <RoomProvider awareness={awareness}>
+    <RoomProvider<AppPresence> awareness={awareness} initialPresence={initialPresence}>
       <SimpleRoom />
     </RoomProvider>
   )
@@ -56,7 +65,7 @@ export default function App() {
 
 ### Using y-presence react hooks
 
-`@y-presence/react` comes with four hooks: `useOthers()`, `useUsers()`, `useSelf()`, and `useRoom()`.
+`@y-presence/react` comes with six hooks: `useOthers()`, `useUsers()`, `useSelf()`, `useUpdatePresence`, `useSetPresence` and `useRoom()`.
 
 - `useOthers()`:
   The `useOthers` hook returns an array of users that are currently connected in the room (excluding yourself). Each user object in the array contains the client/connection id and the presence information associated to the user.
@@ -65,9 +74,21 @@ export default function App() {
   import { useOthers } from '@y-presence/react'
 
   export default function Room() {
-    const others = useOthers()
+    const others = useOthers<AppPresence>()
 
-    return <p>Number of other users: {others.length}</p>
+    return (
+      <>
+        <h3>Others</h3>
+        {others.map((user) => {
+          return (
+            <div key={user.id}>
+              <p>{user.presence.name}</p>
+              <p>{user.presence.color}</p>
+            </div>
+          )
+        })}
+      </>
+    )
   }
   ```
 
@@ -78,46 +99,90 @@ export default function App() {
   import { useUsers } from '@y-presence/react'
 
   export default function Room() {
-    const users = useUsers()
+    const users = useUsers<AppPresence>()
 
-    return <p>Number of connected users: {users.length}</p>
+    return (
+      <>
+        <h3>Users</h3>
+        {users.map((user) => {
+          return (
+            <div key={user.id}>
+              <p>{user.presence.name}</p>
+              <p>{user.presence.color}</p>
+            </div>
+          )
+        })}
+      </>
+    )
   }
   ```
 
 - `useSelf()`:
 
-  The `useSelf` hook returns an object `self` containing information about the current user and a function `setPresence` to update the user's presence. The `useSelf` hook behaves similarly to the `useState` hook as calling the `setPresence` method causes a rerender and updates the `self` object. The `self` object contains the user client/connection id and a field to store a presence object. It looks like the following:
-
-  ```ts
-  User<T> = {
-    id: number, // The client id associated to the user
-    presence?: T // The user presence
-  }
-  ```
-
-  **Example**:
+  The `useSelf` hook returns a `User` object containing information about the current user. This hook triggers a rerender everytime the user presence is updated (using either of `useSetPresence` or `useUpdatePresence` hook). We'll learn more about `useSetPresence` and `useUpdatePresence` below.
 
   ```tsx
   import { useSelf } from '@y-presence/react'
 
-  // Define the presence object (ignore if not typescript)
-  type CursorPresence = {
-    x: number
-    y: number
-  }
-
   export default function Room() {
-    const { self, setPresence } = useSelf<CursorPresence>()
-
-    React.useEffect(() => {
-      setPresence({ x: 0, y: 0 })
-    }, [])
+    const self = useSelf<AppPresence>()
 
     return (
-      <div>
-        <p>Client id: {self.id}</p>
-        <p>Presence: {self.presence}</p>
-      </div>
+      <>
+        <h3>Self</h3>
+        <p>{self.presence.name}</p>
+        <p>{self.presence.name}</p>
+      </>
+    )
+  }
+  ```
+
+- `useUpdatePresence()`:
+
+  The `useUpdatePresence` hook returns a the `updatePresence` method that accepts a subset of the presence object. Because this method updates the user's presence object, any component that is using the `useSelf` method is rerendered.
+
+  ```tsx
+  import { useSelf, useUpdatePresence } from '@y-presence/react'
+
+  export default function Room() {
+    const self = useSelf<AppPresence>()
+
+    const updatePresence = useUpdatePresence<AppPresence>()
+
+    const updateColor = () => {
+      updatePresence({ color: 'red' })
+    }
+
+    return (
+      <>
+        <p>{self.presence.color}</p>
+        <button onClick={updateColor}>Update Color to Red</button>
+      </>
+    )
+  }
+  ```
+
+- `useSetPresence()`:
+
+  The `useSetPresence` hook returns a the `setPresence` method that accepts a a presence object (unlike only a subset of presence object in `useUpdatePresence`). This method overrides the current presence object in a single transaction. Because this method updates the user's presence object, any component that is using the `useSelf` method is rerendered.
+
+  ```tsx
+  import { useSelf, useSetPresence } from '@y-presence/react'
+
+  export default function Room() {
+    const self = useSelf<AppPresence>()
+
+    const setPresence = useSetPresence<AppPresence>()
+
+    const updateNameAndColor = () => {
+      setPresence({ name: 'Jane Doe', color: 'red' })
+    }
+
+    return (
+      <>
+        <p>{self.presence.color}</p>
+        <button onClick={updateNameAndColor}>Update Name and Color</button>
+      </>
     )
   }
   ```
@@ -129,8 +194,8 @@ export default function App() {
   import { useRoom } from '@y-presence/react'
 
   export default function Room() {
-    const room = useRoom()
-    const [numUsers, setNumUsers] = React.useState(1)
+    const room = useRoom<AppPresence>()
+    const [numUsers, setNumUsers] = React.useState(room.getUsers().length)
 
     React.useEffect(() => {
       const unsubUsers = room.subscribe('users', (users) => {

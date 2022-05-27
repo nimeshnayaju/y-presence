@@ -9,8 +9,16 @@ const doc = new Y.Doc()
 // Create a websocket provider
 const provider = new WebsocketProvider('wss://demos.yjs.dev', 'y-presence-example-vanilla', doc)
 
+// Define the presence object
+interface AppPresence {
+  name: string
+}
+
+// define the initial presence of the user
+const initialPresence: AppPresence = { name: provider.awareness.clientID.toString() }
+
 // Create a y-presence room using provider awareness
-const room = new Room(provider.awareness)
+const room = new Room<AppPresence>(provider.awareness, initialPresence)
 
 // get the app container element
 const container = document.getElementById('app')
