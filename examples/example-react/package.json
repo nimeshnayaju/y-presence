@@ -1,14 +1,14 @@
 {
   "name": "example-react",
   "private": true,
-  "version": "0.0.0",
+  "version": "2.0.0",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@y-presence/react": "^1.1.8",
+    "@y-presence/react": "^2.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "y-websocket": "^1.4.3",
