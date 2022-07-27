@@ -2,8 +2,6 @@
 
 React hooks to add multiplayer presence (live cursors/avatars) to any react application.
 
-- Lightweight: 13.99kb gzipped
-
 ### Codesandbox demo/examples
 
 For all the demos, you can open a new tab on your browser to observe how the presence updates in each example.

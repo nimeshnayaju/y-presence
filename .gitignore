@@ -11,3 +11,6 @@ coverage
 .vercel
 .next
 .env
+.cache
+server/dist
+public/dist

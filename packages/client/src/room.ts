@@ -185,10 +185,10 @@ export class Room<T extends Presence = Presence> {
   }
 }
 
-type UsersEventCallback<T> = (users: User<T>[]) => void
-type UserEventCallback<T> = (user: User<T>) => void
+type UsersEventCallback<T extends Presence> = (users: User<T>[]) => void
+type UserEventCallback<T extends Presence> = (user: User<T>) => void
 
-interface RoomListener<T> {
+interface RoomListener<T extends Presence> {
   users: UsersEventCallback<T>[]
   others: UsersEventCallback<T>[]
   self: UserEventCallback<T>[]

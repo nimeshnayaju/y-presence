@@ -2,8 +2,6 @@
 
 Add presence (live cursors/avatars) to any web application.
 
-- Lightweight: 8.74kb gzipped
-
 ## Codesandbox demo/examples
 
 ### Vue.js

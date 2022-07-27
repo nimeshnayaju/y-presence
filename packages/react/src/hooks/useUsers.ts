@@ -1,8 +1,9 @@
+import { Presence } from '@y-presence/client'
 import React from 'react'
 import useRerender from './useRerender'
 import { useRoom } from './useRoom'
 
-export function useUsers<T>() {
+export function useUsers<T extends Presence>() {
   const room = useRoom<T>()
   const rerender = useRerender()
 

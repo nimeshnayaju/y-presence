@@ -1,17 +1,22 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "exclude": ["node_modules", "dist", "docs"],
-  "include": ["src"],
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "client",
   "compilerOptions": {
-    "outDir": "./dist/types",
-    "rootDir": "src",
-    "baseUrl": ".",
-    "paths": {
-      "~*": ["./src/*"]
-    }
+    "composite": false,
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "inlineSources": false,
+    "isolatedModules": true,
+    "moduleResolution": "node",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "preserveWatchOutput": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ES6"
   },
-  "typedocOptions": {
-    "entryPoints": ["src/index.ts"],
-    "out": "docs"
-  }
+  "include": ["src/**/*", "tests/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

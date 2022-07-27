@@ -1,5 +1,5 @@
 {
-  "name": "example-react",
+  "name": "@y-presence/example-react",
   "private": true,
   "version": "2.0.0",
   "scripts": {
@@ -8,17 +8,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@y-presence/react": "^2.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "@y-presence/react": "*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "y-websocket": "^1.4.3",
-    "yjs": "^13.5.38"
+    "yjs": "^13.5.40"
   },
   "devDependencies": {
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "@vitejs/plugin-react": "1.3.2",
-    "typescript": "^4.6.3",
-    "vite": "^2.9.9"
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "@vitejs/plugin-react": "^2.0.0",
+    "typescript": "^4.7.4",
+    "vite": "^3.0.3"
   }
 }

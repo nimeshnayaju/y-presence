@@ -2,9 +2,9 @@
 
 A lightweight set of libraries to easily add presence (live cursors/avatars) to any web application. This repository contains two packages:
 
-- [@y-presence/client](https://github.com/nimeshnayaju/y-presence/tree/main/packages/client) (8.74kb gzipped) exposes a `Room` object which wraps the provider's awareness to provide helper methods to listen to changes in self presence, other users' presence and all users' presence.
+- [@y-presence/client](https://github.com/nimeshnayaju/y-presence/tree/main/packages/client)exposes a `Room` object which wraps the provider's awareness to provide helper methods to listen to changes in self presence, other users' presence and all users' presence.
 
-- [@y-presence/react](https://github.com/nimeshnayaju/y-presence/tree/main/packages/react) (13.99kb gzipped) provides simple react hooks to get or update self presence and receive all users' (or other users') presence. It uses the `Room` class exposed by `@y-presence/client`.
+- [@y-presence/react](https://github.com/nimeshnayaju/y-presence/tree/main/packages/react) provides simple react hooks to get or update self presence and receive all users' (or other users') presence. It uses the `Room` class exposed by `@y-presence/client`.
 
 ## Codesandbox demo/examples
 

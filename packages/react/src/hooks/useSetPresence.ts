@@ -1,7 +1,8 @@
+import { Presence } from '@y-presence/client'
 import React from 'react'
 import { useRoom } from './useRoom'
 
-export function useSetPresence<T>() {
+export function useSetPresence<T extends Presence>() {
   const room = useRoom<T>()
 
   const setPresence = React.useCallback(
