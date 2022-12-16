@@ -1,9 +1,9 @@
 # @y-presence/react
 
-## 2.0.1
+## 0.1.0
 
-### Patch Changes
+### Minor Changes
 
-- Update dependency versions
-- Updated dependencies
-  - @y-presence/client@2.0.1
+- - Use `useSyncExternalStore` hook to manage awareness state in React
+  - Move `@y-presence/client` and `@y-presence/react` to `y-presence`.
+  - Export `createPresenceStore` and `usePresenceStore`.
