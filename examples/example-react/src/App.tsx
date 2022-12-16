@@ -1,111 +1,80 @@
-import {
-  RoomProvider,
-  useOthers,
-  useRoom,
-  useSelf,
-  useUpdatePresence,
-  useUsers,
-} from '@y-presence/react'
-import { useEffect, useState } from 'react'
-import { WebsocketProvider } from 'y-websocket'
-import { Doc } from 'yjs'
-import './App.css'
+import { useCallback } from "react";
+import { User, createPresenceStore, usePresenceStore } from "y-presence";
+import { WebsocketProvider } from "y-websocket";
+import { Doc } from "yjs";
 
-const doc = new Doc()
+const doc = new Doc();
 
 // Create a websocket provider
-export const provider = new WebsocketProvider('wss://demos.yjs.dev', 'y-presence-v2', doc)
+const provider = new WebsocketProvider(
+  "wss://demos.yjs.dev",
+  "example-react",
+  doc
+);
 
-// Export the provider's awareness API
-export const awareness = provider.awareness
+const awareness = provider.awareness;
 
-interface AppPresence {
-  name: string
-  color: string
+interface Presence {
+  name: string;
 }
 
-const presence: AppPresence = { name: awareness.clientID.toString(), color: 'blue' }
+const store = createPresenceStore<Presence>(awareness, {
+  name: ["John Doe", "Michael Derry", "Henry Calvin"][
+    Math.floor(Math.random() * 3)
+  ],
+});
 
 export default function App() {
   return (
-    <RoomProvider awareness={awareness} initialPresence={presence}>
+    <>
       <Self />
-      <All />
-      <Others />
-      <Room />
-    </RoomProvider>
-  )
-}
-
-function Self() {
-  const self = useSelf<AppPresence>()
-
-  const updatePresence = useUpdatePresence<AppPresence>()
-
-  const updateColor = () => {
-    updatePresence({ color: 'red' })
-  }
-
-  return (
-    <>
-      <h3>Self</h3>
-      <p>{self.presence.name}</p>
-      <p>{self.presence.color}</p>
-      <button onClick={updateColor}>Update Color to Red</button>
+      <hr />
+      <Users />
     </>
-  )
+  );
 }
 
-function All() {
-  const users = useUsers<AppPresence>()
+function Users() {
+  const [users] = usePresenceStore(store, (users) => users);
 
   return (
-    <>
-      <h3>Users</h3>
+    <div>
+      <h2>Users: {users.length}</h2>
       {users.map((user) => {
         return (
           <div key={user.id}>
-            <p>{user.presence.name}</p>
-            <p>{user.presence.color}</p>
+            {user.id}: <b>{user.presence.name}</b>
           </div>
-        )
+        );
       })}
-    </>
-  )
+    </div>
+  );
 }
 
-function Others() {
-  const others = useOthers<AppPresence>()
+function Self() {
+  const [user, setPresence] = usePresenceStore(
+    store,
+    (users) => users.filter((user) => user.id === store.awareness.clientID)[0],
+    isUserEqual
+  );
+
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setPresence({ name: event.target.value });
+    },
+    []
+  );
+
+  if (!user) return null;
 
   return (
-    <>
-      <h3>Others</h3>
-      {others.map((user) => {
-        return (
-          <div key={user.id}>
-            <p>{user.presence.name}</p>
-            <p>{user.presence.color}</p>
-          </div>
-        )
-      })}
-    </>
-  )
+    <div>
+      <h2>Self: {user.id}</h2>
+      <input value={user.presence.name} onChange={handleChange} />
+    </div>
+  );
 }
 
-function Room() {
-  const room = useRoom<AppPresence>()
-
-  const [numUsers, setNumUsers] = useState(room.getUsers().length)
-
-  useEffect(() => {
-    const unsubUsers = room.subscribe('users', (users) => {
-      setNumUsers(users.length)
-    })
-
-    return () => {
-      unsubUsers()
-    }
-  }, [])
-
-  return <p>Number of connected users: {numUsers}</p>
-}
+const isUserEqual = (a: User<Presence>, b: User<Presence>) => {
+  return a.id === b.id && a.presence.name === b.presence.name;
+};
