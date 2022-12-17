@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { User, createPresenceStore, usePresenceStore } from "y-presence";
+import { useSelf, useUsers } from "y-presence";
 import { WebsocketProvider } from "y-websocket";
 import { Doc } from "yjs";
 
@@ -14,67 +14,49 @@ const provider = new WebsocketProvider(
 
 const awareness = provider.awareness;
 
-interface Presence {
-  name: string;
-}
-
-const store = createPresenceStore<Presence>(awareness, {
-  name: ["John Doe", "Michael Derry", "Henry Calvin"][
-    Math.floor(Math.random() * 3)
-  ],
-});
+awareness.setLocalState({ name: "John Doe", email: "johndoe@gmail.com" });
 
 export default function App() {
   return (
     <>
+      <All />
       <Self />
-      <hr />
-      <Users />
     </>
   );
 }
 
-function Users() {
-  const [users] = usePresenceStore(store, (users) => users);
+function All() {
+  console.log(awareness);
+  const users = useUsers(awareness, (state) => state);
 
   return (
     <div>
-      <h2>Users: {users.length}</h2>
-      {users.map((user) => {
-        return (
-          <div key={user.id}>
-            {user.id}: <b>{user.presence.name}</b>
-          </div>
-        );
+      <h2>All Users: {users.size}</h2>
+      {Array.from(users.entries()).map(([key, value]) => {
+        return <div key={key}>{value.name}</div>;
       })}
     </div>
   );
 }
 
 function Self() {
-  const [user, setPresence] = usePresenceStore(
-    store,
-    (users) => users.filter((user) => user.id === store.awareness.clientID)[0],
-    isUserEqual
-  );
+  const state = useSelf(awareness, (state) => {
+    if (state) {
+      return state.name as string;
+    }
+  });
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      setPresence({ name: event.target.value });
+      awareness.setLocalStateField("name", event.target.value);
     },
     []
   );
 
-  if (!user) return null;
-
   return (
     <div>
-      <h2>Self: {user.id}</h2>
-      <input value={user.presence.name} onChange={handleChange} />
+      <h2>Self: {awareness.clientID}</h2>
+      <input value={state ?? ""} onChange={handleChange} />
     </div>
   );
 }
-
-const isUserEqual = (a: User<Presence>, b: User<Presence>) => {
-  return a.id === b.id && a.presence.name === b.presence.name;
-};
