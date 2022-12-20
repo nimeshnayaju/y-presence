@@ -26,8 +26,9 @@ export default function App() {
 }
 
 function All() {
-  console.log(awareness);
-  const users = useUsers(awareness, (state) => state);
+  const users = useUsers(awareness);
+
+  console.log(users);
 
   return (
     <div>

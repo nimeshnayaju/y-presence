@@ -64,7 +64,7 @@ import { awareness } from "./store.ts";
 
 export default function App() {
   // Fetch all users connected in the room
-  const users = useSelf(awareness, (state) => state);
+  const users = useSelf(awareness);
 
   return <div>Number of connected users: {users.size}</div>;
 }
@@ -77,13 +77,15 @@ export default function App() {
 The `useUsers` hook subscribes to updates to the awareness states of all users connected in the room. It accepts three arguments:
 
 1. An awareness object returned by connection provider.
-2. A selector function that accepts a map of the awareness states and enables selecting a subset of this map. This signals React to rerender the component only when this subset has changed.
+2. (Optional) A selector function that accepts a map of the awareness states and enables selecting a subset of this map. This signals React to rerender the component only when this subset has changed.
 3. (Optional) A equality function to detect if the selected subset has changed.
 
 #### Example Usage:
 
 ```tsx
 // Returns a map of the client id to their awareness state and rerenders when any such awareness state changes
+const users = useUsers(awareness);
+// equivalent to:
 const users = useUsers(awareness, (state) => state);
 // Map {
 //    3965141439 => { name: "John Doe", email: "johndoe@gmail.com" }
@@ -106,21 +108,23 @@ const self = useUsers(awareness, (state) => state.get(awareness.clientId));
 The `useSelf` hook subscribes to updates to the awareness state of the current user (self) in the room. It accepts three arguments:
 
 1. An awareness object returned by connection provider.
-2. A selector function that accepts an awareness state object and enables selecting a subset of this object. This signals React to rerender the component only when this subset has changed.
+2. (Optional) A selector function that accepts an awareness state object and enables selecting a subset of this object. This signals React to rerender the component only when this subset has changed.
 3. (Optional) A equality function to detect if the selected subset has changed.
 
 #### Example Usage:
 
 ```tsx
 // Returns the awareness state of the current user (self) and rerenders when this state changes.
-const self = useUsers(awareness, (state) => state);
+const self = useSelf(awareness);
+// is equivalent to:
+const self = useSelf(awareness, (state) => state);
 // {
 //    name: "John Doe",
 //    email: "johndoe@gmail.com"
 // }
 
 // Returns the value of the property `name` of the current user's awareness state and rerenders when this value changes
-const name = useSelf(awareness, (state) => state.name);
+const name = useSelf(awareness, (state) => state?.name);
 // "John Doe"
 ```
 

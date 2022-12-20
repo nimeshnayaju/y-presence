@@ -2,9 +2,19 @@ import { useCallback, useRef } from "react";
 import { useSyncExternalStoreWithSelector } from "use-sync-external-store/shim/with-selector";
 import { type Awareness } from "y-protocols/awareness";
 
+type UsersSnapshot = ReturnType<Awareness["getStates"]>;
+
+export function useUsers(awareness: Awareness): UsersSnapshot;
+
 export function useUsers<Selection>(
   awareness: Awareness,
-  selector: (state: ReturnType<Awareness["getStates"]>) => Selection,
+  selector: (state: UsersSnapshot) => Selection,
+  compare?: (a: Selection, b: Selection) => boolean
+): Selection;
+
+export function useUsers<Selection>(
+  awareness: Awareness,
+  selector: (state: UsersSnapshot) => Selection = (state) => state as Selection,
   compare?: (a: Selection, b: Selection) => boolean
 ): Selection {
   const stateRef = useRef<ReturnType<Awareness["getStates"]>>();
