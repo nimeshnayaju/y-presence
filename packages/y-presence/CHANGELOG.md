@@ -1,5 +1,11 @@
 # @y-presence/react
 
+## 0.2.2
+
+### Patch Changes
+
+- Remove `yjs` from peer dependencies
+
 ## 0.2.1
 
 ### Patch Changes
