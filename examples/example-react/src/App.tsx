@@ -28,8 +28,6 @@ export default function App() {
 function All() {
   const users = useUsers(awareness);
 
-  console.log(users);
-
   return (
     <div>
       <h2>All Users: {users.size}</h2>
