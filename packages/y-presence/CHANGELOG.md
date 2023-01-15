@@ -1,5 +1,11 @@
 # @y-presence/react
 
+## 0.2.3
+
+### Patch Changes
+
+- Fix use-sync-external-store import
+
 ## 0.2.2
 
 ### Patch Changes

@@ -1,4 +1,5 @@
-import { defineConfig } from 'tsup'
+import { replace } from 'esbuild-plugin-replace';
+import { defineConfig } from 'tsup';
 
 export default defineConfig({
   entryPoints: ['src/index.ts'],
@@ -10,7 +11,12 @@ export default defineConfig({
   minifySyntax: true,
   minifyWhitespace: false,
   minifyIdentifiers: true,
-  external: ['react'],
   clean: true,
   dts: true,
+  esbuildPlugins: [
+    replace({
+      'use-sync-external-store/shim/with-selector':
+      'use-sync-external-store/shim/with-selector.js',
+    })
+  ]
 })
